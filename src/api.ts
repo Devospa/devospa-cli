@@ -2,6 +2,7 @@ import got from 'got'
 
 import { baseURL } from './consts'
 import { handleError } from './errors'
+import { login } from './login'
 
 const ApiUrl = `${baseURL}/devospaApi`
 
@@ -11,16 +12,18 @@ function post(url, json) {
       handleError("Devospa is out of service, please try again")
     }
     if (err.response.statusCode === 503) {
-      handleError("Please login again using the folowing command, npx devospa login")
+      return login().then(() => {
+        return post(url, json)
+      }).catch(e => {
+        handleError("Please login again using the folowing command, npx devospa login")
+      })
     }
     throw err
   })
 }
 
 export function checkProject(userToken, projectToken) {
-  console.log(userToken, projectToken)
   return post('/checkProjectToken', { projectToken, userToken }).catch(err => {
-    console.log(err.response.body)
     handleError("The project token is wrong, please copy the command from devospa.com")
   })
 }
