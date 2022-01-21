@@ -1,6 +1,6 @@
 {
   "name": "devospa",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A simple cli to push a demo of developing spa to the devospa.com",
   "repository": "Devospa/devospa-cli",
   "scripts": {
