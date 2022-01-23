@@ -49,7 +49,7 @@ function login() {
             switch (_b.label) {
                 case 0:
                     getUsername = { name: "email", message: "Email", description: "Enter your email address to login" };
-                    getPassword = { name: "password", message: "Password", description: "Enter the password you would login to devospa" };
+                    getPassword = { type: "password", name: "password", message: "Password", description: "Enter the password you would login to devospa" };
                     return [4 /*yield*/, poss(inquirer.prompt([getUsername, getPassword]))];
                 case 1:
                     _a = _b.sent(), blErr = _a[0], loginData = _a[1];
@@ -60,11 +60,8 @@ function login() {
                     return [4 /*yield*/, (0, api_1.signIn)(email, password)];
                 case 2:
                     userToken = (_b.sent()).userToken;
-                    if (!userToken) {
-                        return [2 /*return*/, (0, errors_1.handleError)("Email or password is wrong, please use the email you registered with in devospa.com")];
-                    }
                     (0, store_1.storeData)({ userToken: userToken });
-                    return [2 /*return*/, userToken];
+                    return [2 /*return*/, userToken || (0, errors_1.handleError)("Email or password is wrong, please use the email you registered with in devospa.com")];
             }
         });
     });
